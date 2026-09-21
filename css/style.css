@@ -1,0 +1,277 @@
+/* ==========================================================================
+   Design System & Base Tokens
+   Abderrahmane Imlouli - Cybersecurity Engineer Portfolio
+   ========================================================================== */
+
+:root {
+  /* Color Palette - Dark Neutral & Restrained Accents */
+  --bg-primary: #080B10;
+  --bg-secondary: #0D1117;
+  --bg-surface: #11161D;
+  --bg-elevated: #151B23;
+  --border-color: #252D38;
+  --border-subtle: #1C232D;
+
+  --text-primary: #F5F7FA;
+  --text-secondary: #A7B0BC;
+  --text-muted: #707A87;
+
+  --accent-primary: #35D0A0;
+  --accent-secondary: #5EE7C2;
+  --accent-dark: #1FA77E;
+  --accent-glow: rgba(53, 208, 160, 0.08);
+  --accent-glow-strong: rgba(53, 208, 160, 0.16);
+
+  --status-success: #35D0A0;
+  --status-warning: #E6B450;
+  --status-error: #E56B6F;
+  --status-info: #5EA8E7;
+
+  /* Typography */
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Spacing & Layout */
+  --max-width: 1240px;
+  --section-spacing: 120px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Shadows */
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 25px var(--accent-glow);
+}
+
+/* Reset & Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(53, 208, 160, 0.25);
+  color: var(--text-primary);
+}
+
+/* Accessibility Focus States */
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 3px;
+}
+
+/* Typography Defaults */
+/* Typography Specs:
+   Hero title: 64–80px desktop / 42–52px mobile
+   Section titles: 40–52px
+   Body: 16–18px
+   Metadata: 13–14px
+*/
+h1 {
+  font-size: clamp(2.625rem, 6vw, 5rem); /* 42px - 80px */
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-size: clamp(2.5rem, 4vw, 3.25rem); /* 40px - 52px */
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+}
+
+p {
+  color: var(--text-secondary);
+  font-size: 1.0625rem; /* 17px base (16-18px range) */
+  line-height: 1.75;
+}
+
+.text-meta {
+  font-size: 0.84375rem; /* 13.5px (13-14px range) */
+  color: var(--text-muted);
+}
+
+a {
+  color: var(--accent-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--accent-primary);
+}
+
+code, pre, .font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Section Shell */
+.section {
+  padding: var(--section-spacing) 0;
+  position: relative;
+}
+
+.section-header {
+  margin-bottom: 3.5rem;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.825rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-primary);
+  background: rgba(53, 208, 160, 0.08);
+  border: 1px solid rgba(53, 208, 160, 0.2);
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  max-width: 650px;
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-main);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--accent-primary);
+  color: #080B10;
+  border-color: var(--accent-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-secondary);
+  border-color: var(--accent-secondary);
+  color: #080B10;
+  box-shadow: 0 0 20px rgba(53, 208, 160, 0.35);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-elevated);
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.btn-icon {
+  padding: 10px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.btn-icon:hover {
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  background: var(--bg-elevated);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.badge-verified {
+  background: rgba(53, 208, 160, 0.1);
+  border-color: rgba(53, 208, 160, 0.3);
+  color: var(--accent-primary);
+}
+
+.badge-in-progress {
+  background: rgba(230, 180, 80, 0.1);
+  border-color: rgba(230, 180, 80, 0.3);
+  color: var(--status-warning);
+}
+
+.badge-ot {
+  background: linear-gradient(135deg, rgba(53, 208, 160, 0.15) 0%, rgba(94, 168, 231, 0.15) 100%);
+  border: 1px solid rgba(53, 208, 160, 0.35);
+  color: var(--text-primary);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
