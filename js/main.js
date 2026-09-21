@@ -4,23 +4,60 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile Nav Toggle
+  // Mobile Nav Toggle with accessible class-based drawer
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const navLinks = document.getElementById('nav-links');
 
+  function closeMobileMenu() {
+    if (navLinks && navLinks.classList.contains('nav-open')) {
+      navLinks.classList.remove('nav-open');
+      if (mobileMenuBtn) {
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        mobileMenuBtn.classList.remove('active');
+      }
+    }
+  }
+
+  function toggleMobileMenu() {
+    if (!navLinks) return;
+    const isOpen = navLinks.classList.toggle('nav-open');
+    if (mobileMenuBtn) {
+      mobileMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      mobileMenuBtn.classList.toggle('active', isOpen);
+    }
+  }
+
   if (mobileMenuBtn && navLinks) {
-    mobileMenuBtn.addEventListener('click', () => {
-      const isExpanded = navLinks.style.display === 'flex';
-      navLinks.style.display = isExpanded ? 'none' : 'flex';
-      if (!isExpanded) {
-        navLinks.style.flexDirection = 'column';
-        navLinks.style.position = 'absolute';
-        navLinks.style.top = '76px';
-        navLinks.style.left = '0';
-        navLinks.style.width = '100%';
-        navLinks.style.background = 'var(--bg-secondary)';
-        navLinks.style.padding = '24px';
-        navLinks.style.borderBottom = '1px solid var(--border-color)';
+    mobileMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMobileMenu();
+    });
+
+    // Close mobile menu when a nav link is clicked
+    navLinks.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        closeMobileMenu();
+      });
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+        closeMobileMenu();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeMobileMenu();
+      }
+    });
+
+    // Reset mobile menu state on window resize across breakpoints
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        closeMobileMenu();
       }
     });
   }
@@ -125,4 +162,83 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 600);
     });
   }
+
+  // ═══════════════════════════════════════════════════════════
+  // Experience Section Mobile Accordion
+  // ═══════════════════════════════════════════════════════════
+  const expItems = document.querySelectorAll('.experience-item');
+
+  function updateAccordionAria(isDesktop) {
+    expItems.forEach(item => {
+      const trigger = item.querySelector('.exp-header-trigger');
+      const indicator = item.querySelector('.exp-toggle-indicator');
+      if (isDesktop) {
+        if (trigger) trigger.setAttribute('aria-expanded', 'true');
+      } else {
+        const isExpanded = item.classList.contains('is-expanded');
+        if (trigger) trigger.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+        if (indicator) indicator.textContent = isExpanded ? '−' : '+';
+      }
+    });
+  }
+
+  expItems.forEach(item => {
+    const trigger = item.querySelector('.exp-header-trigger');
+    const indicator = item.querySelector('.exp-toggle-indicator');
+    if (!trigger) return;
+
+    function toggleCard(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      // Accordion only operates on mobile / tablet viewports (<= 768px)
+      if (window.innerWidth > 768) return;
+
+      const isCurrentlyExpanded = item.classList.contains('is-expanded');
+
+      // Close all other experience cards to maintain compact mobile height
+      expItems.forEach(other => {
+        if (other !== item && other.classList.contains('is-expanded')) {
+          other.classList.remove('is-expanded');
+          const otherTrigger = other.querySelector('.exp-header-trigger');
+          const otherInd = other.querySelector('.exp-toggle-indicator');
+          if (otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
+          if (otherInd) otherInd.textContent = '+';
+        }
+      });
+
+      // Toggle current card
+      if (isCurrentlyExpanded) {
+        // Return to small box
+        item.classList.remove('is-expanded');
+        trigger.setAttribute('aria-expanded', 'false');
+        if (indicator) indicator.textContent = '+';
+      } else {
+        // Expand card
+        item.classList.add('is-expanded');
+        trigger.setAttribute('aria-expanded', 'true');
+        if (indicator) indicator.textContent = '−';
+      }
+    }
+
+    // Clicking header trigger (title, role, date, or + / − indicator)
+    trigger.addEventListener('click', toggleCard);
+
+    // Clicking anywhere on the surface of a collapsed card on mobile expands it
+    item.addEventListener('click', (e) => {
+      if (window.innerWidth > 768) return;
+      if (!item.classList.contains('is-expanded')) {
+        toggleCard(e);
+      }
+    });
+  });
+
+  // Sync initial ARIA state based on viewport width
+  updateAccordionAria(window.innerWidth > 768);
+
+  // Sync on resize across 768px boundary
+  window.addEventListener('resize', () => {
+    updateAccordionAria(window.innerWidth > 768);
+  });
 });

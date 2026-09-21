@@ -49,11 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     detailsBox.innerHTML = `
       <div style="background: var(--bg-elevated); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; margin-top: 16px; animation: fadeIn 0.2s ease;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
           <h4 style="color: var(--accent-primary); font-family: var(--font-mono); font-size: 1rem;">${data.name}</h4>
-          <span class="badge badge-verified">${data.hardware}</span>
+          <span class="badge badge-verified" style="white-space: normal; text-align: right;">${data.hardware}</span>
         </div>
-        <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px;">
+        <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 8px;">
           ${data.config.map(item => `<li style="font-size: 0.85rem; color: var(--text-secondary);"><span style="color: var(--accent-primary); margin-right: 6px;">▸</span>${item}</li>`).join('')}
         </ul>
       </div>

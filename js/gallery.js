@@ -65,12 +65,14 @@
     goTo(currentIndex);
     modal.classList.add('gm-active');
     document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
     $close.focus();
   }
 
   function closeGallery() {
     modal.classList.remove('gm-active');
     document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
     $img.src = '';
   }
 
